@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatisStudy03many2many.dao.IRoleDao">
+    <resultMap id="roleMap" type="com.mybatisStudy03many2many.domain.Role">
+        <id property="roleId" column="RID"></id>
+        <result property="roleName" column="ROLE_NAME"></result>
+        <result property="roleDesc" column="ROLE_DESC"></result>
+        <!---->
+        <collection property="users" ofType="com.mybatisStudy03many2many.domain.User">
+            <id property="id" column="id"></id>
+            <result property="username" column="username"></result>
+            <result property="birthday" column="birthday"></result>
+            <result property="sex" column="sex"></result>
+            <result property="address" column="address"></result>
+        </collection>
+    </resultMap>
+    <select id="findAll" resultMap="roleMap">
+        select role.ID as RID, role.ROLE_NAME, ROLE_DESC, u.* from role
+         left join user_role ur on role.ID = ur.RID
+          left join user u on ur.UID = u.id
+    </select>
+</mapper>
